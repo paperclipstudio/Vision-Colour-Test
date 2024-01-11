@@ -1,0 +1,138 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<div id="center" 
+			 style="
+			    background: purple;
+			    width: 100px;
+			    height: 100px;
+			    border-radius: 100%;
+			    position: fixed;
+			    left: 50%;
+			    top: 50%;
+			    ">
+			<p
+					style="
+					       top: 50%;
+					       transform: translateY(100%);
+					       text-align: center;
+					       "
+			>
+			.
+			</p>
+		</div>
+
+		<div id="moving"
+		     style="
+			    background: yellow;
+			    width: 100px;
+			    height: 100px;
+			    border-radius: 100%;
+			    position: fixed;
+			    left: 10%;
+			    top: 10%;
+			    "
+		     >
+		     <p style="
+			       top: 50%;
+			       transform: translateY(50%);
+			       text-align: center;
+			       "
+			>
+			What colour am I?
+		     </p>
+		</div>
+
+			<footer>
+				Press any key to change colours
+			</footer>
+		<script type="text/javascript">
+			let showColours =function (){
+				while (center.children.length > 1) {
+					center.removeChild(center.lastChild)
+				}
+				colours.forEach( function (colour){
+					console.log(colour)
+					let div = document.createElement("div")
+					div.style.background = colour
+					div.innerHTML = colour
+					center.appendChild(div)
+					console.log(div)
+				})
+			}
+
+			const easy = ["red",
+				"green",
+				"blue"
+			];
+			const medium = ["red",
+				"orange",
+				"yellow",
+				"green",
+				"blue",
+				"indigo",
+				"violet"]
+
+			// Choosing the difficultly
+			const options = [easy, medium]
+			let optionsIndex = 0;
+			let colours = options[optionsIndex];
+			window.onkeypress = (function() {
+				optionsIndex += 1
+				optionsIndex %= options.length
+				colours = options[optionsIndex]
+				showColours()
+			})
+
+
+			let center = document.getElementById("center")
+			showColours()
+
+			function updateMoving() {
+				// Give random colour
+				let moving = document.getElementById('moving')
+				const index = Math.floor(Math.random() * colours.length)
+				moving.style.background = colours[index]
+				console.log(easy[index])
+
+				// Move to random location
+				const edge_limit = 0.8; // between 0-1
+				let left = Math.floor((Math.random() * (1-edge_limit) + edge_limit) * 100.0)
+				let above = Math.floor((Math.random() * (1-edge_limit) + edge_limit) * 100.0) 
+				console.log(left, above);
+
+				// Move between top and bottom edges
+				if (Math.random() > 0.5) {
+					above = above - edge_limit * 100.0
+				}
+
+
+				// Move between left and right edges
+				if (Math.random() > 0.5) {
+					left = left - edge_limit * 100.0
+				} 
+
+				const isLeft = Math.random() > 0.5;
+
+				moving.style.top = above + "%";
+				moving.style.left = left + "%";
+			}
+
+
+			setInterval(updateMoving, 3000);
+
+
+
+
+
+
+
+
+
+
+		</script>
+	</body>
+
+
+</html>
